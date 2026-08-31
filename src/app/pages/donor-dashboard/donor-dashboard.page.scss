@@ -1,0 +1,1441 @@
+:host {
+  --blood-red: #c7183f;
+  --blood-red-dark: #a91234;
+  --soft-red: #fff0f3;
+  --border: #eadfe1;
+  --text: #171717;
+  --muted: #777;
+  --background: #fcf9f9;
+  --white: #ffffff;
+
+  display: block;
+}
+
+
+/* =====================================================
+   MAIN PAGE
+   ===================================================== */
+
+ion-content {
+  --background: var(--background);
+}
+
+
+.dashboard {
+  min-height: 100%;
+  background: var(--background);
+  color: var(--text);
+  padding-bottom: 90px;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.dashboard-header {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #eee5e6;
+}
+
+
+.header-inner {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+
+  min-height: 76px;
+
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+
+  align-items: center;
+  gap: 28px;
+}
+
+
+/* =====================================================
+   BRAND
+   ===================================================== */
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--blood-red);
+  color: white;
+
+  flex-shrink: 0;
+}
+
+
+.brand-logo ion-icon {
+  font-size: 22px;
+}
+
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+
+.brand-name {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--blood-red);
+}
+
+
+.brand-tagline {
+  margin-top: 4px;
+
+  font-size: 9px;
+  color: #777;
+}
+
+
+/* =====================================================
+   WELCOME
+   ===================================================== */
+
+.welcome-section h1 {
+  margin: 0;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #151515;
+}
+
+
+.welcome-section p {
+  margin: 3px 0 0;
+
+  font-size: 10px;
+  color: #888;
+}
+
+
+/* =====================================================
+   HEADER ACTIONS
+   ===================================================== */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.header-icon-button,
+.avatar-button {
+  border: 0;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+
+.header-icon-button {
+  position: relative;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #333;
+}
+
+
+.header-icon-button ion-icon {
+  font-size: 21px;
+}
+
+
+.notification-badge {
+  position: absolute;
+
+  top: 3px;
+  right: 2px;
+
+  min-width: 14px;
+  height: 14px;
+
+  padding: 0 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: var(--blood-red);
+  color: white;
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+
+.avatar-button {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+
+  background: #f6eeee;
+  border: 1px solid #eadfe1;
+
+  color: #555;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+
+.dashboard-content {
+  width: min(1120px, calc(100% - 32px));
+
+  margin: 0 auto;
+
+  padding: 16px 0 30px;
+}
+
+
+/* =====================================================
+   TOP GRID
+   ===================================================== */
+
+.top-grid {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+
+  gap: 16px;
+
+  align-items: start;
+}
+
+
+/* =====================================================
+   STATUS CARD
+   ===================================================== */
+
+.status-card {
+  background: var(--white);
+
+  border: 1px solid var(--border);
+
+  border-radius: 13px;
+
+  padding: 12px;
+
+  box-shadow:
+    0 4px 14px rgba(60, 30, 30, 0.06);
+}
+
+
+.status-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.blood-badge {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 12px;
+
+  background: var(--soft-red);
+
+  color: var(--blood-red);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+
+.blood-badge ion-icon {
+  font-size: 15px;
+}
+
+
+.blood-badge strong {
+  margin-top: -1px;
+  font-size: 14px;
+}
+
+
+.status-info {
+  min-width: 0;
+}
+
+
+.small-label {
+  display: block;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+
+  color: #777;
+}
+
+
+.status-info h2 {
+  margin: 3px 0 2px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  color: #111;
+}
+
+
+.status-info p {
+  margin: 0;
+
+  font-size: 9px;
+
+  color: #777;
+}
+
+
+/* =====================================================
+   AVAILABILITY
+   ===================================================== */
+
+.availability-control {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  margin-top: 10px;
+
+  background: #f5eeee;
+
+  border-radius: 8px;
+
+  padding: 3px;
+}
+
+
+.availability-option {
+  min-height: 30px;
+
+  border: 0;
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #666;
+
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+
+.availability-option.active {
+  background: white;
+
+  color: #222;
+
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+
+.availability-check {
+  color: #555;
+  margin-right: 5px;
+}
+
+
+.availability-cross {
+  color: #999;
+  margin-right: 5px;
+}
+
+
+.update-button {
+  width: 100%;
+
+  margin-top: 7px;
+
+  min-height: 31px;
+
+  border: 1px solid #eadfe1;
+  border-radius: 7px;
+
+  background: white;
+
+  color: var(--blood-red);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   IMPACT
+   ===================================================== */
+
+.impact-section {
+  min-width: 0;
+}
+
+
+.section-title h2,
+.dashboard-section h2,
+.quick-actions-section h2 {
+  margin: 0;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  color: #151515;
+}
+
+
+.section-title p,
+.section-heading p {
+  margin: 3px 0 0;
+
+  font-size: 9px;
+
+  color: #777;
+}
+
+
+.impact-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 8px;
+
+  margin-top: 8px;
+}
+
+
+.impact-card {
+  min-height: 84px;
+
+  padding: 9px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow:
+    0 2px 8px rgba(60, 30, 30, 0.04);
+}
+
+
+.impact-label {
+  font-size: 7px;
+  line-height: 1.25;
+
+  color: #777;
+
+  letter-spacing: 0.3px;
+}
+
+
+.impact-card strong {
+  font-size: 20px;
+
+  color: #111;
+}
+
+
+.impact-card .date-text {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+
+/* =====================================================
+   MAIN GRID
+   ===================================================== */
+
+.main-grid {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+
+  gap: 16px;
+
+  margin-top: 16px;
+
+  align-items: start;
+}
+
+
+.left-column,
+.right-column {
+  min-width: 0;
+}
+
+
+.dashboard-section {
+  margin-bottom: 17px;
+}
+
+
+.section-heading {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 8px;
+}
+
+
+.view-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 3px;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--blood-red);
+
+  font-size: 9px;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+
+.view-link ion-icon {
+  font-size: 11px;
+}
+
+
+/* =====================================================
+   EMERGENCY REQUESTS
+   ===================================================== */
+
+.request-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+
+.request-card {
+  position: relative;
+
+  min-width: 0;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 11px;
+
+  padding: 11px;
+
+  box-shadow:
+    0 3px 10px rgba(60, 30, 30, 0.04);
+}
+
+
+.request-card.critical {
+  border-color: #ef9da9;
+}
+
+
+.request-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 3px 7px;
+
+  border-radius: 10px;
+
+  background: #f4f1ef;
+
+  color: #777;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+}
+
+
+.level-badge ion-icon {
+  font-size: 9px;
+}
+
+
+.critical-badge {
+  background: #fff0f2;
+  color: var(--blood-red);
+}
+
+
+.urgent-badge {
+  background: #fff6e8;
+  color: #b66b00;
+}
+
+
+.request-blood {
+  padding: 7px 8px;
+
+  border-radius: 8px;
+
+  background: #fff0f3;
+
+  color: var(--blood-red);
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+
+.request-card h3 {
+  margin: 9px 0 3px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  color: #171717;
+}
+
+
+.units-text {
+  margin: 0 0 8px;
+
+  font-size: 8px;
+
+  color: #777;
+}
+
+
+.units-text span {
+  color: #555;
+}
+
+
+.request-detail {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin: 5px 0;
+
+  font-size: 8px;
+
+  color: #555;
+}
+
+
+.request-detail ion-icon {
+  color: #777;
+
+  font-size: 12px;
+
+  flex-shrink: 0;
+}
+
+
+.respond-button {
+  width: 100%;
+
+  min-height: 31px;
+
+  margin-top: 8px;
+
+  border: 0;
+
+  border-radius: 7px;
+
+  background: var(--blood-red);
+
+  color: white;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.respond-button:disabled {
+  background: #faf3f3;
+
+  color: #aaa;
+
+  cursor: default;
+}
+
+
+/* =====================================================
+   EMPTY STATE
+   ===================================================== */
+
+.empty-state {
+  padding: 28px 16px;
+
+  text-align: center;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+}
+
+
+.empty-state ion-icon {
+  font-size: 30px;
+
+  color: #d98b99;
+}
+
+
+.empty-state h3 {
+  margin: 8px 0 3px;
+
+  font-size: 12px;
+}
+
+
+.empty-state p {
+  max-width: 350px;
+
+  margin: 0 auto;
+
+  font-size: 9px;
+
+  color: #777;
+}
+
+
+/* =====================================================
+   RECENT DONATIONS
+   ===================================================== */
+
+.compact-section {
+  background: transparent;
+}
+
+
+.donation-list {
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 11px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 3px 10px rgba(60, 30, 30, 0.04);
+}
+
+
+.donation-item {
+  min-height: 48px;
+
+  padding: 8px 10px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  border-bottom: 1px solid #eee7e8;
+}
+
+
+.donation-item:last-child {
+  border-bottom: 0;
+}
+
+
+.donation-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.donation-info strong {
+  font-size: 9px;
+
+  color: #222;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.donation-info span {
+  margin-top: 3px;
+
+  font-size: 7px;
+
+  color: #777;
+}
+
+
+.donation-status {
+  padding: 3px 7px;
+
+  border-radius: 8px;
+
+  border: 1px solid #acd7c4;
+
+  background: #effaf5;
+
+  color: #398063;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+
+.donation-status.pending {
+  border-color: #efbd8e;
+
+  background: #fff6ec;
+
+  color: #b66b00;
+}
+
+
+/* =====================================================
+   UPDATES / NOTIFICATIONS
+   ===================================================== */
+
+.notification-list {
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 11px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 3px 10px rgba(60, 30, 30, 0.04);
+}
+
+
+.notification-item {
+  position: relative;
+
+  min-height: 58px;
+
+  padding: 9px 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  border-bottom: 1px solid #eee7e8;
+}
+
+
+.notification-item:last-child {
+  border-bottom: 0;
+}
+
+
+.notification-icon {
+  width: 24px;
+  height: 24px;
+
+  border-radius: 7px;
+
+  background: #fff0f3;
+
+  color: var(--blood-red);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+
+.notification-icon ion-icon {
+  font-size: 12px;
+}
+
+
+.notification-content {
+  min-width: 0;
+}
+
+
+.notification-content p {
+  margin: 0;
+
+  font-size: 8px;
+  line-height: 1.4;
+
+  color: #333;
+}
+
+
+.notification-content span {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 7px;
+
+  color: #999;
+}
+
+
+.unread-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--blood-red);
+
+  margin-left: auto;
+
+  flex-shrink: 0;
+}
+
+
+/* =====================================================
+   PROFILE CARD
+   ===================================================== */
+
+.profile-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 10px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 11px;
+
+  box-shadow:
+    0 3px 10px rgba(60, 30, 30, 0.04);
+}
+
+
+.profile-avatar {
+  width: 31px;
+  height: 31px;
+
+  border-radius: 50%;
+
+  background: #f8eded;
+
+  color: #444;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+
+.profile-info {
+  min-width: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.profile-info strong {
+  font-size: 9px;
+
+  color: #222;
+}
+
+
+.profile-info span {
+  margin-top: 3px;
+
+  font-size: 7px;
+
+  color: #777;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+.profile-card .profile-button {
+  padding: 6px 9px;
+
+  border: 1px solid #e5dddd;
+
+  border-radius: 6px;
+
+  background: white;
+
+  color: #333;
+
+  font-size: 7px;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+
+/* =====================================================
+   QUICK ACTIONS
+   ===================================================== */
+
+.quick-actions-section {
+  margin-top: 3px;
+
+  padding: 12px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 11px;
+
+  box-shadow:
+    0 3px 10px rgba(60, 30, 30, 0.04);
+}
+
+
+.quick-actions-section h2 {
+  margin-bottom: 10px;
+}
+
+
+.quick-actions {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 8px;
+}
+
+
+.quick-action {
+  min-width: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+
+  color: #444;
+}
+
+
+.quick-icon {
+  width: 28px;
+  height: 28px;
+
+  border-radius: 8px;
+
+  background: #fff0f3;
+
+  color: var(--blood-red);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.quick-icon ion-icon {
+  font-size: 13px;
+}
+
+
+.quick-action span {
+  text-align: center;
+
+  font-size: 7px;
+
+  line-height: 1.3;
+
+  color: #555;
+}
+
+
+/* =====================================================
+   BOTTOM NAVIGATION
+   ===================================================== */
+
+.bottom-navigation {
+  position: fixed;
+
+  left: 50%;
+  bottom: 10px;
+
+  transform: translateX(-50%);
+
+  width: min(560px, calc(100% - 24px));
+
+  padding: 6px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 5px 20px rgba(40, 20, 20, 0.12);
+
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  z-index: 100;
+}
+
+
+.nav-item {
+  min-height: 42px;
+
+  border: 0;
+
+  background: transparent;
+
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  color: #777;
+
+  cursor: pointer;
+}
+
+
+.nav-item ion-icon {
+  font-size: 17px;
+}
+
+
+.nav-item span {
+  font-size: 7px;
+}
+
+
+.nav-item.active {
+  color: var(--blood-red);
+
+  background: #fff2f4;
+
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 900px) {
+
+  .header-inner {
+    grid-template-columns: auto 1fr auto;
+
+    gap: 16px;
+  }
+
+
+  .brand-section {
+    display: none;
+  }
+
+
+  .top-grid,
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .impact-section {
+    margin-top: 2px;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+  .dashboard {
+    padding-bottom: 80px;
+  }
+
+
+  .header-inner {
+    width: calc(100% - 24px);
+
+    min-height: 62px;
+
+    grid-template-columns: 1fr auto;
+
+    gap: 10px;
+  }
+
+
+  .welcome-section h1 {
+    font-size: 13px;
+  }
+
+
+  .welcome-section p {
+    font-size: 9px;
+  }
+
+
+  .dashboard-content {
+    width: calc(100% - 20px);
+
+    padding-top: 12px;
+  }
+
+
+  .status-card {
+    padding: 10px;
+  }
+
+
+  .status-main {
+    align-items: flex-start;
+  }
+
+
+  .status-info h2 {
+    font-size: 11px;
+  }
+
+
+  .status-info p {
+    font-size: 8px;
+  }
+
+
+  .impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+
+  .impact-card {
+    min-height: 76px;
+  }
+
+
+  .main-grid {
+    gap: 6px;
+  }
+
+
+  .request-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .request-card {
+    padding: 10px;
+  }
+
+
+  .quick-actions {
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 2px;
+  }
+
+
+  .quick-actions-section {
+    padding: 10px 5px;
+  }
+
+
+  .quick-action span {
+    font-size: 6.5px;
+  }
+
+
+  .quick-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+
+  .section-heading {
+    align-items: center;
+  }
+
+
+  .view-link {
+    font-size: 8px;
+  }
+
+
+  .profile-card {
+    margin-bottom: 12px;
+  }
+
+
+  .bottom-navigation {
+    bottom: 7px;
+
+    width: calc(100% - 14px);
+  }
+
+
+  .nav-item {
+    min-height: 44px;
+  }
+
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+   ===================================================== */
+
+@media (max-width: 380px) {
+
+  .blood-badge {
+    width: 42px;
+    height: 42px;
+  }
+
+
+  .impact-card strong {
+    font-size: 18px;
+  }
+
+
+  .impact-card .date-text {
+    font-size: 10px;
+  }
+
+
+  .quick-action span {
+    font-size: 6px;
+  }
+
+
+  .nav-item span {
+    font-size: 6px;
+  }
+
+}

@@ -1,0 +1,844 @@
+<ion-content class="bloodlink-register" [scrollY]="true">
+
+  <div class="register-wrapper">
+
+    <!-- ================= BRAND ================= -->
+
+    <header class="brand-section">
+
+      <div class="logo-ring">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="logo-drop"
+          aria-hidden="true"
+        >
+
+          <path
+            d="M12 2C12 2 5.5 9.5 5.5 14.5C5.5 18.09 8.41 21 12 21C15.59 21 18.5 18.09 18.5 14.5C18.5 9.5 12 2 12 2Z"
+            fill="white"
+          />
+
+          <path
+            d="M9.5 14.5C9.5 15.88 10.62 17 12 17"
+            stroke="#B91C3C"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+
+        </svg>
+
+      </div>
+
+
+      <h1 class="brand-name">
+        BloodLink
+      </h1>
+
+
+      <p class="brand-tagline">
+        Connecting blood donors with those in need
+      </p>
+
+    </header>
+
+
+
+    <!-- ================= REGISTER CARD ================= -->
+
+    <main class="register-card">
+
+
+      <div class="card-heading">
+
+        <h2 class="card-title">
+          Create Account
+        </h2>
+
+
+        <p class="card-subtitle">
+          {{ getRoleSubtitle() }}
+        </p>
+
+      </div>
+
+
+
+      <!-- ================= FORM ================= -->
+
+      <form
+        #registerForm="ngForm"
+        (ngSubmit)="onRegister()"
+        novalidate
+      >
+
+
+        <!-- ================= ACCOUNT TYPE ================= -->
+
+        <div class="field-group">
+
+          <label
+            class="field-label"
+            for="accountType"
+          >
+            Account Type
+          </label>
+
+
+          <div class="input-shell select-shell">
+
+            <ion-icon
+              name="person-outline"
+              class="input-icon blood-icon"
+              aria-hidden="true"
+            ></ion-icon>
+
+
+            <ion-select
+              id="accountType"
+              class="native-select"
+              interface="action-sheet"
+              placeholder="Select account type"
+              [(ngModel)]="selectedRole"
+              name="role"
+              required
+              [disabled]="isLoading"
+              (ionChange)="onRoleChange()"
+            >
+
+              <ion-select-option value="DONOR">
+                Donor
+              </ion-select-option>
+
+
+              <ion-select-option value="PATIENT">
+                Patient / Family
+              </ion-select-option>
+
+
+              <ion-select-option value="HOSPITAL">
+                Hospital
+              </ion-select-option>
+
+
+              <ion-select-option value="BLOOD_BANK">
+                Blood Bank
+              </ion-select-option>
+
+            </ion-select>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= NAME ================= -->
+
+        <div class="field-group">
+
+          <label
+            class="field-label"
+            for="fullName"
+          >
+            {{ getNameLabel() }}
+          </label>
+
+
+          <div class="input-shell">
+
+            <ion-icon
+              [name]="
+                isOrganizationRole()
+                  ? 'business-outline'
+                  : 'person-outline'
+              "
+              class="input-icon blood-icon"
+              aria-hidden="true"
+            ></ion-icon>
+
+
+            <input
+              id="fullName"
+              type="text"
+              class="native-input"
+              [placeholder]="getNamePlaceholder()"
+              [(ngModel)]="registration.fullName"
+              name="fullName"
+              required
+              autocomplete="name"
+              [disabled]="isLoading"
+            />
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= EMAIL ================= -->
+
+        <div class="field-group">
+
+          <label
+            class="field-label"
+            for="email"
+          >
+            Email Address
+          </label>
+
+
+          <div class="input-shell">
+
+            <ion-icon
+              name="mail-outline"
+              class="input-icon blood-icon"
+              aria-hidden="true"
+            ></ion-icon>
+
+
+            <input
+              id="email"
+              type="email"
+              class="native-input"
+              placeholder="Enter your email"
+              [(ngModel)]="registration.email"
+              name="email"
+              required
+              autocomplete="email"
+              [disabled]="isLoading"
+            />
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= MOBILE ================= -->
+
+        <div class="field-group">
+
+          <label
+            class="field-label"
+            for="mobile"
+          >
+            Mobile Number
+          </label>
+
+
+          <div class="input-shell">
+
+            <ion-icon
+              name="call-outline"
+              class="input-icon blood-icon"
+              aria-hidden="true"
+            ></ion-icon>
+
+
+            <input
+              id="mobile"
+              type="tel"
+              class="native-input"
+              placeholder="Enter your mobile number"
+              [(ngModel)]="registration.mobile"
+              name="mobile"
+              required
+              autocomplete="tel"
+              inputmode="tel"
+              [disabled]="isLoading"
+            />
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- ================ DONOR / PATIENT ================= -->
+        <!-- ================================================= -->
+
+        <ng-container *ngIf="isIndividualRole()">
+
+
+          <!-- ================= DATE OF BIRTH ================= -->
+
+          <div class="field-group">
+
+            <label
+              class="field-label"
+              for="dob"
+            >
+              Date of Birth
+            </label>
+
+
+            <div class="input-shell">
+
+              <ion-icon
+                name="calendar-outline"
+                class="input-icon blood-icon"
+                aria-hidden="true"
+              ></ion-icon>
+
+
+              <input
+                id="dob"
+                type="date"
+                class="native-input date-input"
+                [(ngModel)]="registration.dateOfBirth"
+                name="dateOfBirth"
+                [max]="maxDate"
+                required
+                [disabled]="isLoading"
+              />
+
+            </div>
+
+
+            <p class="field-hint-text">
+              Select your date of birth
+            </p>
+
+          </div>
+
+
+
+          <!-- ================= GENDER ================= -->
+
+          <div class="field-group">
+
+            <label
+              class="field-label"
+              for="gender"
+            >
+              Gender
+            </label>
+
+
+            <div class="input-shell select-shell">
+
+              <ion-icon
+                name="person-outline"
+                class="input-icon blood-icon"
+                aria-hidden="true"
+              ></ion-icon>
+
+
+              <ion-select
+                id="gender"
+                class="native-select"
+                interface="action-sheet"
+                placeholder="Select your gender"
+                [(ngModel)]="registration.gender"
+                name="gender"
+                required
+                [disabled]="isLoading"
+              >
+
+                <ion-select-option value="male">
+                  Male
+                </ion-select-option>
+
+
+                <ion-select-option value="female">
+                  Female
+                </ion-select-option>
+
+
+                <ion-select-option value="other">
+                  Other
+                </ion-select-option>
+
+
+                <ion-select-option value="prefer-not">
+                  Prefer not to say
+                </ion-select-option>
+
+              </ion-select>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- ================= BLOOD GROUP ================= -->
+
+          <div class="field-group">
+
+            <label
+              class="field-label"
+              for="bloodGroup"
+            >
+              Blood Group
+            </label>
+
+
+            <div class="input-shell select-shell">
+
+              <ion-icon
+                name="water-outline"
+                class="input-icon blood-icon"
+                aria-hidden="true"
+              ></ion-icon>
+
+
+              <ion-select
+                id="bloodGroup"
+                class="native-select"
+                interface="action-sheet"
+                placeholder="Select blood group"
+                [(ngModel)]="registration.bloodGroup"
+                name="bloodGroup"
+                [required]="selectedRole === 'DONOR'"
+                [disabled]="isLoading"
+              >
+
+                <ion-select-option value="A+">
+                  A+
+                </ion-select-option>
+
+
+                <ion-select-option value="A-">
+                  A-
+                </ion-select-option>
+
+
+                <ion-select-option value="B+">
+                  B+
+                </ion-select-option>
+
+
+                <ion-select-option value="B-">
+                  B-
+                </ion-select-option>
+
+
+                <ion-select-option value="AB+">
+                  AB+
+                </ion-select-option>
+
+
+                <ion-select-option value="AB-">
+                  AB-
+                </ion-select-option>
+
+
+                <ion-select-option value="O+">
+                  O+
+                </ion-select-option>
+
+
+                <ion-select-option value="O-">
+                  O-
+                </ion-select-option>
+
+              </ion-select>
+
+            </div>
+
+          </div>
+
+        </ng-container>
+
+
+
+        <!-- ================================================= -->
+        <!-- ================= ORGANIZATION ================== -->
+        <!-- ================================================= -->
+
+        <ng-container *ngIf="isOrganizationRole()">
+
+
+          <!-- ================= LICENSE NUMBER ================= -->
+
+          <div class="field-group">
+
+            <label
+              class="field-label"
+              for="licenseNumber"
+            >
+              Registration / License Number
+            </label>
+
+
+            <div class="input-shell">
+
+              <ion-icon
+                name="business-outline"
+                class="input-icon blood-icon"
+                aria-hidden="true"
+              ></ion-icon>
+
+
+              <input
+                id="licenseNumber"
+                type="text"
+                class="native-input"
+                placeholder="Enter registration number"
+                [(ngModel)]="registration.licenseNumber"
+                name="licenseNumber"
+                required
+                [disabled]="isLoading"
+              />
+
+            </div>
+
+          </div>
+
+
+
+          <!-- ================= ADDRESS ================= -->
+
+          <div class="field-group">
+
+            <label
+              class="field-label"
+              for="address"
+            >
+              Address
+            </label>
+
+
+            <div class="input-shell">
+
+              <ion-icon
+                name="location-outline"
+                class="input-icon blood-icon"
+                aria-hidden="true"
+              ></ion-icon>
+
+
+              <input
+                id="address"
+                type="text"
+                class="native-input"
+                placeholder="Enter your address"
+                [(ngModel)]="registration.address"
+                name="address"
+                required
+                autocomplete="street-address"
+                [disabled]="isLoading"
+              />
+
+            </div>
+
+          </div>
+
+
+
+          <!-- ================= CITY ================= -->
+
+          <div class="field-group">
+
+            <label
+              class="field-label"
+              for="city"
+            >
+              City
+            </label>
+
+
+            <div class="input-shell">
+
+              <ion-icon
+                name="location-outline"
+                class="input-icon blood-icon"
+                aria-hidden="true"
+              ></ion-icon>
+
+
+              <input
+                id="city"
+                type="text"
+                class="native-input"
+                placeholder="Enter your city"
+                [(ngModel)]="registration.city"
+                name="city"
+                required
+                autocomplete="address-level2"
+                [disabled]="isLoading"
+              />
+
+            </div>
+
+          </div>
+
+        </ng-container>
+
+
+
+        <!-- ================= PASSWORD ================= -->
+
+        <div class="field-group">
+
+          <label
+            class="field-label"
+            for="password"
+          >
+            Password
+          </label>
+
+
+          <div class="input-shell">
+
+            <ion-icon
+              name="lock-closed-outline"
+              class="input-icon blood-icon"
+              aria-hidden="true"
+            ></ion-icon>
+
+
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="native-input"
+              placeholder="Create a password"
+              [(ngModel)]="registration.password"
+              name="password"
+              required
+              minlength="6"
+              autocomplete="new-password"
+              [disabled]="isLoading"
+            />
+
+
+            <button
+              type="button"
+              class="toggle-visibility"
+              (click)="togglePasswordVisibility()"
+              [disabled]="isLoading"
+              [attr.aria-label]="
+                showPassword
+                  ? 'Hide password'
+                  : 'Show password'
+              "
+            >
+
+              <ion-icon
+                [name]="
+                  showPassword
+                    ? 'eye-off-outline'
+                    : 'eye-outline'
+                "
+              ></ion-icon>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= CONFIRM PASSWORD ================= -->
+
+        <div class="field-group">
+
+          <label
+            class="field-label"
+            for="confirmPassword"
+          >
+            Confirm Password
+          </label>
+
+
+          <div
+            class="input-shell"
+            [class.input-error]="
+              registration.confirmPassword &&
+              registration.password !==
+              registration.confirmPassword
+            "
+          >
+
+            <ion-icon
+              name="lock-closed-outline"
+              class="input-icon blood-icon"
+              aria-hidden="true"
+            ></ion-icon>
+
+
+            <input
+              id="confirmPassword"
+              [type]="
+                showConfirmPassword
+                  ? 'text'
+                  : 'password'
+              "
+              class="native-input"
+              placeholder="Confirm your password"
+              [(ngModel)]="registration.confirmPassword"
+              name="confirmPassword"
+              required
+              autocomplete="new-password"
+              [disabled]="isLoading"
+            />
+
+
+            <button
+              type="button"
+              class="toggle-visibility"
+              (click)="toggleConfirmPasswordVisibility()"
+              [disabled]="isLoading"
+              [attr.aria-label]="
+                showConfirmPassword
+                  ? 'Hide password'
+                  : 'Show password'
+              "
+            >
+
+              <ion-icon
+                [name]="
+                  showConfirmPassword
+                    ? 'eye-off-outline'
+                    : 'eye-outline'
+                "
+              ></ion-icon>
+
+            </button>
+
+          </div>
+
+
+          <p
+            class="error-text"
+            *ngIf="
+              registration.confirmPassword &&
+              registration.password !==
+              registration.confirmPassword
+            "
+          >
+            Passwords do not match.
+          </p>
+
+        </div>
+
+
+
+        <!-- ================= TERMS ================= -->
+
+        <div class="terms-row">
+
+          <ion-checkbox
+            class="terms-checkbox"
+            [(ngModel)]="registration.agreedToTerms"
+            name="agreedToTerms"
+            required
+            [disabled]="isLoading"
+          >
+          </ion-checkbox>
+
+
+          <div class="terms-text">
+
+            I agree to the
+
+            <span
+              class="terms-link"
+              (click)="onTerms()"
+            >
+              Terms & Conditions
+            </span>
+
+            and
+
+            <span
+              class="terms-link"
+              (click)="onPrivacy()"
+            >
+              Privacy Policy
+            </span>.
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= REGISTER BUTTON ================= -->
+
+        <ion-button
+          type="submit"
+          expand="block"
+          class="register-btn"
+          [disabled]="
+            !registerForm.valid ||
+            registration.password !==
+            registration.confirmPassword ||
+            isLoading
+          "
+        >
+
+          <ion-spinner
+            *ngIf="isLoading"
+            name="crescent"
+            class="btn-spinner"
+          >
+          </ion-spinner>
+
+
+          <span *ngIf="!isLoading">
+            Create Account
+          </span>
+
+
+          <span
+            *ngIf="isLoading"
+            class="sr-only"
+          >
+            Creating account, please wait
+          </span>
+
+        </ion-button>
+
+      </form>
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer-section">
+
+      <p class="login-prompt">
+
+        Already have an account?
+
+        <button
+          type="button"
+          class="link-button login-link"
+          (click)="onLogin()"
+          [disabled]="isLoading"
+        >
+          Login
+        </button>
+
+      </p>
+
+
+      <p class="register-subtext">
+
+        {{ selectedRole === 'DONOR'
+          ? 'Donor account'
+          : selectedRole === 'PATIENT'
+          ? 'Patient account'
+          : selectedRole === 'HOSPITAL'
+          ? 'Hospital account'
+          : 'Blood Bank account'
+        }}
+
+        • BloodLink
+
+      </p>
+
+    </footer>
+
+  </div>
+
+</ion-content>

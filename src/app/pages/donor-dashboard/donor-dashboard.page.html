@@ -1,0 +1,889 @@
+<ion-content [fullscreen]="true">
+
+  <div class="dashboard">
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <header class="dashboard-header">
+
+      <div class="header-inner">
+
+        <div class="brand-section">
+
+          <div class="brand-logo">
+            <ion-icon name="water-outline"></ion-icon>
+          </div>
+
+          <div class="brand-text">
+
+            <span class="brand-name">
+              BLOODLINK
+            </span>
+
+            <span class="brand-tagline">
+              Save lives. Donate blood.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="welcome-section">
+
+          <h1>
+            Good morning, {{ donorName }}.
+          </h1>
+
+          <p>
+            Thank you for helping save lives.
+          </p>
+
+        </div>
+
+
+        <div class="header-actions">
+
+          <button
+            type="button"
+            class="header-icon-button"
+            aria-label="Notifications"
+            (click)="openNotifications()">
+
+            <ion-icon
+              name="notifications-outline">
+            </ion-icon>
+
+            <span
+              class="notification-badge">
+              2
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="avatar-button"
+            aria-label="Open profile"
+            (click)="openProfile()">
+
+            <span>
+              {{ donorName.charAt(0).toUpperCase() }}
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- ================================================= -->
+    <!-- MAIN DASHBOARD -->
+    <!-- ================================================= -->
+
+    <main class="dashboard-content">
+
+
+      <!-- ================================================= -->
+      <!-- TOP GRID -->
+      <!-- ================================================= -->
+
+      <div class="top-grid">
+
+
+        <!-- ================================================= -->
+        <!-- DONOR STATUS -->
+        <!-- ================================================= -->
+
+        <section class="status-card">
+
+          <div class="status-main">
+
+            <div class="blood-badge">
+
+              <ion-icon
+                name="water-outline">
+              </ion-icon>
+
+              <strong>
+                {{ bloodGroup }}
+              </strong>
+
+            </div>
+
+
+            <div class="status-info">
+
+              <span class="small-label">
+                YOUR BLOOD GROUP
+              </span>
+
+              <h2>
+                {{ isAvailable
+                  ? 'Available to Donate'
+                  : 'Not Available'
+                }}
+              </h2>
+
+              <p>
+                Nearby hospitals can reach you
+                for urgent needs.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="availability-control">
+
+            <button
+              type="button"
+              class="availability-option"
+              [class.active]="isAvailable"
+              (click)="isAvailable = true">
+
+              <span class="availability-check">
+                ✓
+              </span>
+
+              Available
+
+            </button>
+
+
+            <button
+              type="button"
+              class="availability-option unavailable-option"
+              [class.active]="!isAvailable"
+              (click)="isAvailable = false">
+
+              <span class="availability-cross">
+                ×
+              </span>
+
+              Not available
+
+            </button>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="update-button"
+            (click)="toggleAvailability()">
+
+            Update Availability
+
+          </button>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- IMPACT -->
+        <!-- ================================================= -->
+
+        <section class="impact-section">
+
+          <div class="section-title">
+
+            <h2>
+              Your Impact
+            </h2>
+
+            <p>
+              Every unit you give helps up to three people.
+            </p>
+
+          </div>
+
+
+          <div class="impact-grid">
+
+
+            <div class="impact-card">
+
+              <span class="impact-label">
+                TOTAL
+                <br>
+                DONATIONS
+              </span>
+
+              <strong>
+                {{ totalDonations }}
+              </strong>
+
+            </div>
+
+
+            <div class="impact-card">
+
+              <span class="impact-label">
+                LIVES
+                <br>
+                HELPED
+              </span>
+
+              <strong>
+                {{ livesHelped }}
+              </strong>
+
+            </div>
+
+
+            <div class="impact-card">
+
+              <span class="impact-label">
+                LAST
+                <br>
+                DONATION
+              </span>
+
+              <strong class="date-text">
+                {{ lastDonation }}
+              </strong>
+
+            </div>
+
+
+            <div class="impact-card">
+
+              <span class="impact-label">
+                NEXT
+                <br>
+                ELIGIBLE
+                <br>
+                DATE
+              </span>
+
+              <strong class="date-text">
+                {{ nextEligibleDate }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+
+      <!-- ================================================= -->
+      <!-- MAIN TWO COLUMN AREA -->
+      <!-- ================================================= -->
+
+      <div class="main-grid">
+
+
+        <!-- ================================================= -->
+        <!-- LEFT COLUMN -->
+        <!-- ================================================= -->
+
+        <div class="left-column">
+
+
+          <!-- ================================================= -->
+          <!-- EMERGENCY REQUESTS -->
+          <!-- ================================================= -->
+
+          <section class="dashboard-section">
+
+            <div class="section-heading">
+
+              <div>
+
+                <h2>
+                  Emergency Requests
+                </h2>
+
+                <p>
+                  People near you may need your help.
+                </p>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="view-link"
+                (click)="openEmergencyRequests()">
+
+                View all
+
+                <ion-icon
+                  name="chevron-forward-outline">
+                </ion-icon>
+
+              </button>
+
+            </div>
+
+
+            <div
+              class="request-grid"
+              *ngIf="emergencyRequests.length > 0">
+
+
+              <article
+                class="request-card"
+                *ngFor="let request of emergencyRequests"
+                [class.critical]="request.level === 'CRITICAL'"
+                [class.urgent]="request.level === 'URGENT'">
+
+
+                <div class="request-top">
+
+                  <span
+                    class="level-badge"
+                    [class.critical-badge]="request.level === 'CRITICAL'"
+                    [class.urgent-badge]="request.level === 'URGENT'">
+
+                    <ion-icon
+                      name="alert-circle-outline">
+                    </ion-icon>
+
+                    {{ request.level }}
+
+                  </span>
+
+
+                  <span class="request-blood">
+                    {{ request.bloodGroup }}
+                  </span>
+
+                </div>
+
+
+                <h3>
+                  {{ request.bloodGroup }}
+                  blood required
+                </h3>
+
+
+                <p class="units-text">
+
+                  {{ request.unitsRequired }}
+                  {{ request.unitsRequired === 1 ? 'unit' : 'units' }}
+                  needed ·
+
+                  <span>
+                    {{ request.status }}
+                  </span>
+
+                </p>
+
+
+                <div class="request-detail">
+
+                  <ion-icon
+                    name="business-outline">
+                  </ion-icon>
+
+                  <span>
+                    {{ request.hospitalName }}
+                  </span>
+
+                </div>
+
+
+                <div class="request-detail">
+
+                  <ion-icon
+                    name="location-outline">
+                  </ion-icon>
+
+                  <span>
+                    {{ request.distance }} away
+                  </span>
+
+                </div>
+
+
+                <div class="request-detail">
+
+                  <ion-icon
+                    name="time-outline">
+                  </ion-icon>
+
+                  <span>
+                    {{ request.requiredBy }}
+                  </span>
+
+                </div>
+
+
+                <button
+                  type="button"
+                  class="respond-button"
+                  [disabled]="request.level === 'STANDARD'"
+                  (click)="respondToRequest(request)">
+
+                  {{ request.level === 'STANDARD'
+                    ? 'Response sent'
+                    : 'Respond to Request'
+                  }}
+
+                </button>
+
+              </article>
+
+            </div>
+
+
+            <div
+              class="empty-state"
+              *ngIf="emergencyRequests.length === 0">
+
+              <ion-icon
+                name="heart-outline">
+              </ion-icon>
+
+              <h3>
+                No emergency requests nearby
+              </h3>
+
+              <p>
+                You'll see matching blood requests
+                here when someone needs your help.
+              </p>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- ================================================= -->
+          <!-- QUICK ACTIONS -->
+          <!-- ================================================= -->
+
+          <section class="quick-actions-section">
+
+            <h2>
+              Quick Actions
+            </h2>
+
+
+            <div class="quick-actions">
+
+
+              <button
+                type="button"
+                class="quick-action"
+                (click)="openEmergencyRequests()">
+
+                <div class="quick-icon">
+
+                  <ion-icon
+                    name="alert-circle-outline">
+                  </ion-icon>
+
+                </div>
+
+                <span>
+                  Emergency
+                  <br>
+                  Requests
+                </span>
+
+              </button>
+
+
+
+              <button
+                type="button"
+                class="quick-action"
+                (click)="openDonationHistory()">
+
+                <div class="quick-icon">
+
+                  <ion-icon
+                    name="document-text-outline">
+                  </ion-icon>
+
+                </div>
+
+                <span>
+                  Donation History
+                </span>
+
+              </button>
+
+
+
+              <button
+                type="button"
+                class="quick-action"
+                (click)="openAvailability()">
+
+                <div class="quick-icon">
+
+                  <ion-icon
+                    name="settings-outline">
+                  </ion-icon>
+
+                </div>
+
+                <span>
+                  Availability
+                </span>
+
+              </button>
+
+
+
+              <button
+                type="button"
+                class="quick-action"
+                (click)="openBloodBanks()">
+
+                <div class="quick-icon">
+
+                  <ion-icon
+                    name="business-outline">
+                  </ion-icon>
+
+                </div>
+
+                <span>
+                  Find Blood Banks
+                </span>
+
+              </button>
+
+
+
+              <button
+                type="button"
+                class="quick-action"
+                (click)="openProfile()">
+
+                <div class="quick-icon">
+
+                  <ion-icon
+                    name="person-outline">
+                  </ion-icon>
+
+                </div>
+
+                <span>
+                  My Profile
+                </span>
+
+              </button>
+
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- RIGHT COLUMN -->
+        <!-- ================================================= -->
+
+        <div class="right-column">
+
+
+          <!-- ================================================= -->
+          <!-- RECENT DONATIONS -->
+          <!-- ================================================= -->
+
+          <section class="dashboard-section compact-section">
+
+            <div class="section-heading">
+
+              <div>
+
+                <h2>
+                  Recent Donations
+                </h2>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="view-link"
+                (click)="viewDonationHistory()">
+
+                View Donation History
+
+              </button>
+
+            </div>
+
+
+            <div class="donation-list">
+
+              <div
+                class="donation-item"
+                *ngFor="let donation of recentDonations">
+
+
+                <div class="donation-info">
+
+                  <strong>
+                    {{ donation.hospital }}
+                  </strong>
+
+                  <span>
+                    {{ donation.date }}
+                    ·
+                    {{ donation.bloodGroup }}
+                    ·
+                    {{ donation.units }}
+                    Unit
+                  </span>
+
+                </div>
+
+
+                <span
+                  class="donation-status"
+                  [class.pending]="donation.status === 'PENDING'">
+
+                  {{ donation.status }}
+
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- ================================================= -->
+          <!-- UPDATES -->
+          <!-- ================================================= -->
+
+          <section class="dashboard-section compact-section">
+
+            <div class="section-heading">
+
+              <div>
+
+                <h2>
+                  Updates
+                </h2>
+
+                <p>
+                  Recent activity on your donor account.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="notification-list">
+
+              <div
+                class="notification-item"
+                *ngFor="let notification of notifications">
+
+
+                <div class="notification-icon">
+
+                  <ion-icon
+                    name="notifications-outline">
+                  </ion-icon>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                  <p>
+                    {{ notification.message }}
+                  </p>
+
+                  <span>
+                    {{ notification.unread
+                      ? 'Unread'
+                      : ''
+                    }}
+                    ·
+                    {{ notification.time }}
+                  </span>
+
+                </div>
+
+
+                <span
+                  class="unread-dot"
+                  *ngIf="notification.unread">
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- ================================================= -->
+          <!-- PROFILE -->
+          <!-- ================================================= -->
+
+          <section class="profile-card">
+
+            <div class="profile-avatar">
+
+              {{ donorName.charAt(0).toUpperCase() }}
+
+            </div>
+
+
+            <div class="profile-info">
+
+              <strong>
+                {{ donorName }}
+              </strong>
+
+              <span>
+                {{ bloodGroup }}
+                ·
+                {{ city }}
+                ·
+                {{ isAvailable
+                  ? 'Available'
+                  : 'Unavailable'
+                }}
+              </span>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="profile-button"
+              (click)="openProfile()">
+
+              View Profile
+
+            </button>
+
+          </section>
+
+
+        </div>
+
+      </div>
+
+    </main>
+
+
+
+    <!-- ================================================= -->
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <!-- ================================================= -->
+
+    <nav class="bottom-navigation">
+
+
+      <button
+        type="button"
+        class="nav-item active"
+        (click)="navigateHome()">
+
+        <ion-icon
+          name="home-outline">
+        </ion-icon>
+
+        <span>
+          Home
+        </span>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="nav-item"
+        (click)="navigateRequests()">
+
+        <ion-icon
+          name="alert-circle-outline">
+        </ion-icon>
+
+        <span>
+          Requests
+        </span>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="nav-item"
+        (click)="navigateDonations()">
+
+        <ion-icon
+          name="document-text-outline">
+        </ion-icon>
+
+        <span>
+          Donations
+        </span>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="nav-item"
+        (click)="navigateNotifications()">
+
+        <ion-icon
+          name="notifications-outline">
+        </ion-icon>
+
+        <span>
+          Notifications
+        </span>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="nav-item"
+        (click)="navigateProfile()">
+
+        <ion-icon
+          name="person-outline">
+        </ion-icon>
+
+        <span>
+          Profile
+        </span>
+
+      </button>
+
+
+    </nav>
+
+
+  </div>
+
+</ion-content>

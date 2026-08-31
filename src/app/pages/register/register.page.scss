@@ -1,0 +1,721 @@
+// ============================================================
+// BLOODLINK REGISTER PAGE
+// ============================================================
+
+// ---------- BloodLink palette ----------
+
+$crimson: #B91C3C;
+$crimson-dark: #8F1530;
+$crimson-light: #FDECEF;
+
+$bg: #FAFAFA;
+$card: #FFFFFF;
+
+$text: #1F2937;
+$text-muted: #6B7280;
+
+$border: #E5E7EB;
+$input-bg: #F9FAFB;
+
+
+// ============================================================
+// MAIN PAGE
+// ============================================================
+
+
+.bloodlink-register {
+
+  --background: #{$bg};
+
+  --ion-safe-area-top: 16px;
+
+  --ion-safe-area-bottom: 20px;
+
+}
+
+
+// ============================================================
+// WRAPPER
+// ============================================================
+
+.register-wrapper {
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-height: 100%;
+
+  padding: 24px 20px 32px;
+
+  background:
+    radial-gradient(
+      circle at 10% 8%,
+      rgba(185, 28, 60, 0.12) 0,
+      rgba(185, 28, 60, 0.06) 18%,
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 92% 30%,
+      rgba(244, 114, 135, 0.10) 0,
+      rgba(244, 114, 135, 0.04) 20%,
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(185, 28, 60, 0.08) 0,
+      transparent 38%
+    ),
+    #fff8f9;
+}
+
+
+
+
+// ============================================================
+// BRAND
+// ============================================================
+
+.brand-section {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  padding-top: 8px;
+
+  margin-bottom: 20px;
+
+}
+
+
+.logo-ring {
+
+  width: 60px;
+
+  height: 60px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      $crimson,
+      $crimson-dark
+    );
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 6px 16px
+    rgba($crimson, 0.28);
+
+  margin-bottom: 10px;
+
+}
+
+
+.logo-drop {
+
+  width: 30px;
+
+  height: 30px;
+
+}
+
+
+.brand-name {
+
+  font-size: 1.55rem;
+
+  font-weight: 700;
+
+  color: $text;
+
+  margin: 0;
+
+  letter-spacing: -0.02em;
+
+}
+
+
+.brand-tagline {
+
+  font-size: 0.82rem;
+
+  color: $text-muted;
+
+  margin: 4px 0 0;
+
+}
+
+
+// ============================================================
+// REGISTER CARD
+// ============================================================
+
+.register-card {
+
+  width: 100%;
+
+  max-width: 420px;
+
+  margin: 0 auto;
+
+  background: $card;
+
+  border-radius: 18px;
+
+  padding: 26px 22px 28px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(15, 23, 42, 0.08);
+
+  border:
+    1px solid
+    rgba($border, 0.6);
+
+}
+
+
+.card-title {
+
+  font-size: 1.3rem;
+
+  font-weight: 700;
+
+  color: $text;
+
+  margin: 0 0 4px;
+
+  text-align: center;
+
+}
+
+
+.card-subtitle {
+
+  font-size: 0.88rem;
+
+  color: $text-muted;
+
+  margin: 0 0 22px;
+
+  text-align: center;
+
+}
+
+
+// ============================================================
+// FORM FIELDS
+// ============================================================
+
+.field-group {
+
+  margin-bottom: 15px;
+
+}
+
+
+.field-label {
+
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 8px;
+
+  font-size: 0.83rem;
+
+  font-weight: 600;
+
+  color: $text;
+
+  margin-bottom: 6px;
+
+}
+
+
+.field-hint-text {
+
+  font-size: 0.72rem;
+
+  color: $text-muted;
+
+  margin: 5px 2px 0;
+
+}
+
+
+// ============================================================
+// INPUT SHELL
+// ============================================================
+
+.input-shell {
+
+  display: flex;
+
+  align-items: center;
+
+  background: $input-bg;
+
+  border:
+    1.5px solid
+    $border;
+
+  border-radius: 12px;
+
+  padding: 0 14px;
+
+  min-height: 50px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+
+
+  &:focus-within {
+
+    border-color: $crimson;
+
+    box-shadow:
+      0 0 0 3px
+      $crimson-light;
+
+    background: #fff;
+
+  }
+
+
+  &.input-error {
+
+    border-color: #DC2626;
+
+  }
+
+}
+
+
+// ============================================================
+// ICONS
+// ============================================================
+
+.input-icon {
+
+  font-size: 1.15rem;
+
+  color: $text-muted;
+
+  margin-right: 10px;
+
+  flex-shrink: 0;
+
+}
+
+
+.blood-icon {
+
+  color: $crimson;
+
+}
+
+
+// ============================================================
+// NORMAL INPUT
+// ============================================================
+
+.native-input {
+
+  flex: 1;
+
+  border: none;
+
+  background: transparent;
+
+  outline: none;
+
+  font-size: 0.95rem;
+
+  color: $text;
+
+  min-height: 46px;
+
+  font-family: inherit;
+
+
+  &::placeholder {
+
+    color: #9CA3AF;
+
+  }
+
+}
+
+
+// ============================================================
+// DATE INPUT
+// ============================================================
+
+.date-input {
+
+  cursor: pointer;
+
+  color: $text;
+
+
+  &::-webkit-calendar-picker-indicator {
+
+    cursor: pointer;
+
+    opacity: 0.75;
+
+  }
+
+}
+
+
+// ============================================================
+// SELECT
+// ============================================================
+
+.select-shell {
+
+  padding-right: 8px;
+
+}
+
+
+.native-select {
+
+  flex: 1;
+
+  min-height: 46px;
+
+  width: 100%;
+
+  font-size: 0.95rem;
+
+  --padding-start: 0;
+
+  --placeholder-color: #9CA3AF;
+
+  --placeholder-opacity: 1;
+
+  --highlight-color-focused: #{$crimson};
+
+}
+
+
+// ============================================================
+// PASSWORD VISIBILITY
+// ============================================================
+
+.toggle-visibility {
+
+  background: none;
+
+  border: none;
+
+  padding: 8px;
+
+  margin-right: -8px;
+
+  cursor: pointer;
+
+  color: $text-muted;
+
+  display: flex;
+
+  align-items: center;
+
+
+  ion-icon {
+
+    font-size: 1.25rem;
+
+  }
+
+
+  &:active {
+
+    color: $crimson;
+
+  }
+
+}
+
+
+// ============================================================
+// ERROR
+// ============================================================
+
+.error-text {
+
+  font-size: 0.75rem;
+
+  color: #DC2626;
+
+  margin: 4px 2px 0;
+
+}
+
+
+// ============================================================
+// TERMS
+// ============================================================
+
+.terms-row {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin: 4px 0 20px;
+
+}
+
+
+.terms-checkbox {
+
+  --size: 20px;
+
+  --checkbox-background-checked:
+    #{$crimson};
+
+  --border-color-checked:
+    #{$crimson};
+
+  --border-color:
+    #{$border};
+
+  --border-radius: 6px;
+
+  margin-top: 1px;
+
+  flex-shrink: 0;
+
+}
+
+
+.terms-text {
+
+  font-size: 0.82rem;
+
+  color: $text-muted;
+
+  line-height: 1.45;
+
+}
+
+
+.terms-link {
+
+  color: $crimson;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+
+  &:active {
+
+    opacity: 0.7;
+
+  }
+
+}
+
+
+// ============================================================
+// REGISTER BUTTON
+// ============================================================
+
+.register-btn {
+
+  --background:
+    #{$crimson};
+
+  --background-activated:
+    #{$crimson-dark};
+
+  --background-focused:
+    #{$crimson-dark};
+
+  --background-hover:
+    #{$crimson-dark};
+
+  --color: #ffffff;
+
+  --border-radius: 12px;
+
+  --box-shadow:
+    0 6px 16px
+    rgba($crimson, 0.32);
+
+  --padding-top: 15px;
+
+  --padding-bottom: 15px;
+
+  font-size: 0.98rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.01em;
+
+  text-transform: none;
+
+  margin: 0;
+
+
+  &[disabled] {
+
+    --background: #E5E7EB;
+
+    --color: #9CA3AF;
+
+    --box-shadow: none;
+
+  }
+
+}
+
+
+.btn-spinner {
+
+  width: 18px;
+
+  height: 18px;
+
+  margin-right: 8px;
+
+  --color: #fff;
+
+}
+
+
+// ============================================================
+// FOOTER
+// ============================================================
+
+.footer-section {
+
+  text-align: center;
+
+  margin-top: 22px;
+
+}
+
+
+.login-prompt {
+
+  font-size: 0.88rem;
+
+  color: $text-muted;
+
+  margin: 0;
+
+}
+
+
+.login-link {
+
+  color: $crimson;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  margin-left: 4px;
+
+  background: transparent;
+
+  border: none;
+
+  font-size: inherit;
+
+  padding: 0;
+
+
+  &:active {
+
+    opacity: 0.7;
+
+  }
+
+}
+
+
+.register-subtext {
+
+  font-size: 0.72rem;
+
+  color: #9CA3AF;
+
+  margin: 6px 0 0;
+
+}
+
+
+// ============================================================
+// ACCESSIBILITY
+// ============================================================
+
+.sr-only {
+
+  position: absolute;
+
+  width: 1px;
+
+  height: 1px;
+
+  padding: 0;
+
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+
+  white-space: nowrap;
+
+  border: 0;
+
+}
+
+
+// ============================================================
+// LARGER SCREENS
+// ============================================================
+
+@media (min-width: 640px) {
+
+  .register-wrapper {
+
+    justify-content: flex-start;
+
+    padding-top: 48px;
+
+  }
+
+
+  .register-card {
+
+    padding: 34px 32px;
+
+  }
+
+}
