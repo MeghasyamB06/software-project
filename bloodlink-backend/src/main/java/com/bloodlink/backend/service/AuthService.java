@@ -1,39 +1,45 @@
+
 package com.bloodlink.backend.service;
 
 import com.bloodlink.backend.dto.RegisterRequest;
+import com.bloodlink.backend.entity.Donor;
+import com.bloodlink.backend.entity.Hospital;
 import com.bloodlink.backend.entity.User;
+import com.bloodlink.backend.repository.DonorRepository;
+import com.bloodlink.backend.repository.HospitalRepository;
 import com.bloodlink.backend.repository.UserRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final HospitalRepository hospitalRepository;
+    private final DonorRepository donorRepository;
     private final PasswordEncoder passwordEncoder;
 
     public AuthService(
             UserRepository userRepository,
+            HospitalRepository hospitalRepository,
+            DonorRepository donorRepository,
             PasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
+        this.hospitalRepository = hospitalRepository;
+        this.donorRepository = donorRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-
-    // =====================================================
-    // REGISTER
-    // =====================================================
-
+    @Transactional
     public String register(RegisterRequest request) {
 
-        // -------------------------------------------------
-        // CHECK EMAIL
-        // -------------------------------------------------
-
+        // Check whether the email is already registered.
         if (userRepository
                 .findByEmail(request.getEmail())
                 .isPresent()) {
@@ -41,11 +47,7 @@ public class AuthService {
             return "Email already registered";
         }
 
-
-        // -------------------------------------------------
-        // CHECK MOBILE
-        // -------------------------------------------------
-
+        // Check whether the mobile number is already registered.
         if (userRepository
                 .findByMobile(request.getMobile())
                 .isPresent()) {
@@ -53,122 +55,74 @@ public class AuthService {
             return "Mobile number already registered";
         }
 
+        LocalDateTime now = LocalDateTime.now();
 
-        // -------------------------------------------------
-        // CREATE USER
-        // -------------------------------------------------
-
+        // Create the common user account.
         User user = new User();
 
-
-        // -------------------------------------------------
-        // SAVE FULL NAME
-        // -------------------------------------------------
-
-        user.setFullName(
-                request.getFullName()
-        );
-
-
-        // -------------------------------------------------
-        // SAVE EMAIL
-        // -------------------------------------------------
-
-        user.setEmail(
-                request.getEmail()
-        );
-
-
-        // -------------------------------------------------
-        // SAVE MOBILE
-        // -------------------------------------------------
-
-        user.setMobile(
-                request.getMobile()
-        );
-
-
-        // -------------------------------------------------
-        // HASH PASSWORD
-        // -------------------------------------------------
-
+        user.setEmail(request.getEmail());
+        user.setMobile(request.getMobile());
         user.setPasswordHash(
-                passwordEncoder.encode(
-                        request.getPassword()
-                )
+                passwordEncoder.encode(request.getPassword())
         );
-
-
-        // -------------------------------------------------
-        // SAVE ROLE
-        // -------------------------------------------------
-
-        user.setRole(
-                request.getRole()
-        );
-
-
-        // -------------------------------------------------
-        // DEFAULT ACCOUNT STATUS
-        // -------------------------------------------------
-
+        user.setRole(request.getRole());
         user.setIsVerified(false);
-
         user.setIsActive(true);
+        user.setCreatedAt(now);
+        user.setUpdatedAt(now);
 
+        // Save the user first to obtain the generated user ID.
+        User savedUser = userRepository.save(user);
 
-        // -------------------------------------------------
-        // TIMESTAMPS
-        // -------------------------------------------------
+        // Create the donor profile for DONOR registrations.
+        if ("DONOR".equalsIgnoreCase(request.getRole())) {
 
-        user.setCreatedAt(
-                LocalDateTime.now()
-        );
+            Donor donor = new Donor();
 
-        user.setUpdatedAt(
-                LocalDateTime.now()
-        );
+            donor.setUserId(savedUser.getUserId());
+            donor.setFullName(request.getFullName());
 
+            donor.setDateOfBirth(
+                    LocalDate.parse(request.getDateOfBirth())
+            );
 
-        // -------------------------------------------------
-        // SAVE USER
-        // -------------------------------------------------
+            donor.setGender(request.getGender());
+            donor.setBloodGroup(request.getBloodGroup());
 
-        userRepository.save(user);
+            // New donors are unavailable until they explicitly
+            // update their availability.
+            donor.setIsAvailable(false);
 
+            donor.setAddress(request.getAddress());
+            donor.setCity(request.getCity());
 
-        System.out.println(
-                "========================================"
-        );
+            donor.setCreatedAt(now);
+            donor.setUpdatedAt(now);
 
-        System.out.println(
-                "New user registered"
-        );
+            donorRepository.save(donor);
+        }
 
-        System.out.println(
-                "Name: " +
-                        user.getFullName()
-        );
+        // Preserve the existing hospital registration behaviour.
+        if ("HOSPITAL".equalsIgnoreCase(request.getRole())) {
 
-        System.out.println(
-                "Email: " +
-                        user.getEmail()
-        );
+            Hospital hospital = new Hospital();
 
-        System.out.println(
-                "Mobile: " +
-                        user.getMobile()
-        );
+            hospital.setUserId(savedUser.getUserId());
+            hospital.setHospitalName(
+                    request.getOrganizationName()
+            );
+            hospital.setLicenseNumber(
+                    request.getLicenseNumber()
+            );
+            hospital.setPhone(request.getMobile());
+            hospital.setAddress(request.getAddress());
+            hospital.setCity(request.getCity());
+            hospital.setIsVerified(false);
+            hospital.setCreatedAt(now);
+            hospital.setUpdatedAt(now);
 
-        System.out.println(
-                "Role: " +
-                        user.getRole()
-        );
-
-        System.out.println(
-                "========================================"
-        );
-
+            hospitalRepository.save(hospital);
+        }
 
         return "Registration successful";
     }

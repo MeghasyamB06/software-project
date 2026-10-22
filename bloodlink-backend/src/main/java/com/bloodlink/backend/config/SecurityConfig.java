@@ -23,7 +23,9 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    public SecurityConfig(
+            CustomUserDetailsService userDetailsService
+    ) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -50,6 +52,7 @@ public class SecurityConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
+
         // -------------------------------------------------
         // ALLOWED ORIGINS
         // -------------------------------------------------
@@ -57,7 +60,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(
                 Arrays.asList(
 
-                        // Angular / Ionic development server
+                        // Ionic / Angular browser
                         "http://localhost:8100",
                         "http://127.0.0.1:8100",
 
@@ -140,14 +143,20 @@ public class SecurityConfig {
                 // ENABLE CORS
                 // -------------------------------------------------
 
-                .cors(cors -> {})
+                .cors(cors ->
+                        cors.configurationSource(
+                                corsConfigurationSource()
+                        )
+                )
 
 
                 // -------------------------------------------------
                 // DISABLE CSRF
                 // -------------------------------------------------
 
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf ->
+                        csrf.disable()
+                )
 
 
                 // -------------------------------------------------
@@ -156,32 +165,72 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // Allow CORS preflight requests
+
+                        // -----------------------------------------
+                        // CORS PREFLIGHT REQUESTS
+                        // -----------------------------------------
+
                         .requestMatchers(
                                 HttpMethod.OPTIONS,
                                 "/**"
                         ).permitAll()
 
 
-                        // Allow registration
+                        // -----------------------------------------
+                        // AUTHENTICATION
+                        // -----------------------------------------
+
                         .requestMatchers(
                                 "/api/auth/register"
                         ).permitAll()
 
-
-                        // Allow login
                         .requestMatchers(
                                 "/api/auth/login"
                         ).permitAll()
 
 
-                        // Allow root endpoint
+                        // -----------------------------------------
+                        // DONOR APIs
+                        // -----------------------------------------
+
+                        .requestMatchers(
+                                "/api/donors/**"
+                        ).permitAll()
+
+
+                        // -----------------------------------------
+                        // HOSPITAL APIs
+                        // -----------------------------------------
+
+                        .requestMatchers(
+                                "/api/hospitals/**"
+                        ).permitAll()
+
+
+                        // -----------------------------------------
+                        // EMERGENCY REQUEST APIs
+                        // -----------------------------------------
+
+                        .requestMatchers(
+                                "/api/emergency-requests/**"
+                        ).permitAll()
+
+
+                        // -----------------------------------------
+                        // ROOT ENDPOINT
+                        // -----------------------------------------
+
                         .requestMatchers(
                                 "/"
                         ).permitAll()
 
+                        .requestMatchers("/api/notifications/**").permitAll()
 
-                        // Everything else requires authentication
+
+                        // -----------------------------------------
+                        // EVERYTHING ELSE
+                        // -----------------------------------------
+
                         .anyRequest().authenticated()
                 )
 

@@ -7,7 +7,8 @@ import com.bloodlink.backend.repository.UserRepository;
 import com.bloodlink.backend.service.AuthService;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {
-        "http://localhost:8100",
-        "http://localhost:8101"
-})
+
 public class AuthController {
 
 
@@ -29,6 +27,9 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthService authService;
+
+    // Supports legacy BCrypt hashes created before DelegatingPasswordEncoder.
+    private final BCryptPasswordEncoder legacyBcryptEncoder = new BCryptPasswordEncoder();
 
 
     // =====================================================
@@ -63,115 +64,70 @@ public class AuthController {
     // =====================================================
 
     @PostMapping("/login")
-    public LoginResponse login(
-            @RequestBody LoginRequest request) {
-
-
-        // -------------------------------------------------
-        // FIND USER BY EMAIL
-        // -------------------------------------------------
-
-        Optional<User> user =
-                userRepository.findByEmail(
-                        request.getUsername()
-                );
-
-
-        // -------------------------------------------------
-        // IF EMAIL NOT FOUND, TRY MOBILE
-        // -------------------------------------------------
-
-        if (user.isEmpty()) {
-
-            user =
-                    userRepository.findByMobile(
-                            request.getUsername()
-                    );
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        if (request == null || request.getUsername() == null
+                || request.getUsername().trim().isEmpty()
+                || request.getPassword() == null || request.getPassword().isEmpty()) {
+            return invalidCredentials();
         }
 
+        String username = request.getUsername().trim();
+        String password = request.getPassword();
 
-        // -------------------------------------------------
-        // USER NOT FOUND
-        // -------------------------------------------------
+        Optional<User> user = userRepository.findByEmail(username);
 
-        if (user.isEmpty()) {
-
-            return new LoginResponse(
-                    "Invalid credentials",
-                    null,
-                    null,
-                    null,
-                    null
-            );
+        if (user.isEmpty() && username.contains("@")) {
+            user = userRepository.findByEmail(username.toLowerCase(java.util.Locale.ROOT));
         }
 
+        if (user.isEmpty()) {
+            user = userRepository.findByMobile(username);
+        }
+
+        if (user.isEmpty()) {
+            return invalidCredentials();
+        }
 
         User loggedInUser = user.get();
+        String storedHash = loggedInUser.getPasswordHash();
 
-
-        // -------------------------------------------------
-        // CHECK PASSWORD
-        // -------------------------------------------------
-
-        if (!passwordEncoder.matches(
-                request.getPassword(),
-                loggedInUser.getPasswordHash()
-        )) {
-
-            return new LoginResponse(
-                    "Invalid credentials",
-                    null,
-                    null,
-                    null,
-                    null
-            );
+        if (storedHash == null || !passwordMatches(password, storedHash)) {
+            return invalidCredentials();
         }
 
-
-        // -------------------------------------------------
-        // DEBUG INFORMATION
-        // -------------------------------------------------
-
-        System.out.println(
-                "========================================"
-        );
-
-        System.out.println(
-                "User logged in: " +
-                        loggedInUser.getEmail()
-        );
-
-        System.out.println(
-                "User name: " +
-                        loggedInUser.getFullName()
-        );
-
-        System.out.println(
-                "User role: " +
-                        loggedInUser.getRole()
-        );
-
-        System.out.println(
-                "========================================"
-        );
-
-
-        // -------------------------------------------------
-        // RETURN USER INFORMATION
-        // -------------------------------------------------
+        // Never log raw passwords or password hashes.
+        System.out.println("BloodLink login successful for user ID: "
+                + loggedInUser.getUserId() + ", role: " + loggedInUser.getRole());
 
         return new LoginResponse(
-
                 "Login successful",
-
                 loggedInUser.getUserId(),
-
                 loggedInUser.getEmail(),
-
                 loggedInUser.getRole(),
-
                 loggedInUser.getFullName()
         );
+    }
+
+    private boolean passwordMatches(String rawPassword, String storedHash) {
+        try {
+            if (passwordEncoder.matches(rawPassword, storedHash)) {
+                return true;
+            }
+        } catch (IllegalArgumentException ignored) {
+            // A legacy BCrypt hash may not have the "{bcrypt}" prefix.
+        }
+
+        // Only support verified BCrypt hashes from older versions; no plaintext fallback.
+        if (storedHash.startsWith("$2a$")
+                || storedHash.startsWith("$2b$")
+                || storedHash.startsWith("$2y$")) {
+            return legacyBcryptEncoder.matches(rawPassword, storedHash);
+        }
+        return false;
+    }
+
+    private LoginResponse invalidCredentials() {
+        return new LoginResponse("Invalid credentials", null, null, null, null);
     }
 
 
